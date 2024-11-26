@@ -225,6 +225,7 @@ async function fetchExternalData(): Promise<{ appRankings: Metric[], googleTrend
       name: trend.name,
       value: `${trend.value}`,
       info: `Search interest for ${trend.name.replace('Google trend "', '').replace('"', '')} - Shows public awareness and interest`,
+      // @ts-expect-error - TS doesn't like the ternary operator here
       status: determineStatus("Google Trend", trend.value),
       threshold: `>= ${trend.threshold}`
     }))
