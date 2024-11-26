@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Crypto Sensor
 
-## Getting Started
+📊 A real-time cryptocurrency market indicators dashboard built with Next.js and TypeScript.
 
-First, run the development server:
+## ✨ Features
 
+- 🔄 Real-time market metrics monitoring
+- 🔌 Multiple data sources integration
+- 🚦 Status indicators (success, warning, danger)
+- 📱 Responsive design with dark mode
+- 🔄 Auto-refresh functionality
+
+## 📈 Metrics
+
+- 📊 Market indicators (CBBI, Pi Cycle, MVRV Z-Score)
+- 📱 App store rankings
+- 🔍 Google Trends data
+- 🧮 BTC Dominance and Fear & Greed Index
+
+## 🛠️ Setup
+
+### Prerequisites
+- Node.js (v18+)
+- npm (v8+)
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone repository
+git clone https://github.com/yourusername/crypto-sensor.git
+cd crypto-sensor
+
+# Install dependencies
+npm install
+
+# Setup environment
+cp .env.example .env.local
+# Add your API keys to .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
+```bash
+npm run dev
+# Open http://localhost:3000
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Structure
 
-## Learn More
+```
+/app
+  /components     # React components
+  /lib           # Utilities and API handlers
+  /types         # TypeScript types
+  /data          # Configurations
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js 13+
+- TypeScript
+- Tailwind CSS
+- SWR
+- Framer Motion
+- Lucide React
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+1. Fork repository
+2. Create feature branch
+3. Submit pull request
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License
+
+## 🙏 Credits
+
+- CoinGecko API
+- Google Trends API
+- Crypto market indicators creators
