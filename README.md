@@ -2,6 +2,8 @@
 
 📊 A real-time cryptocurrency market indicators dashboard built with Next.js and TypeScript.
 
+![image](https://github.com/user-attachments/assets/556a7788-c2ef-4ef2-b957-4d91cbd05f8e)
+
 ## ✨ Features
 
 - 🔄 Real-time market metrics monitoring
