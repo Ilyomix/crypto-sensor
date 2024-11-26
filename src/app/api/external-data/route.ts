@@ -53,11 +53,12 @@ async function fetchAppRankings() {
 }
 
 async function fetchGoogleTrends() {
-  const keywords = ['bitcoin', 'crypto', 'buy crypto', 'ethereum', 'solana', 'xrp', 'dogecoin', 'nft', 'metaverse', 'web3']
+  const keywords = ['bitcoin', 'crypto', 'buy crypto', 'sell crypto', 'ethereum', 'solana', 'dogecoin', 'web3']
   
   const results = await Promise.all(keywords.map(async (keyword) => {
     try {
       const { score } = await getTrendScore(keyword)
+
       return {
         name: `Google trend "${keyword}"`,
         value: score,

@@ -8,6 +8,7 @@ import { SkeletonLoader } from "./skeleton-loader"
 import { fetchMetrics } from "@/src/app/lib/api"
 import { Metric } from "@/src/app/types/metrics"
 import { ErrorBoundary } from "react-error-boundary"
+import { Badge } from "@/src/app/components/ui/badge"
 
 function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBoundary: () => void}) {
   return (
@@ -70,13 +71,14 @@ export function MetricsDashboard() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className="w-full min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
-          <div className="flex items-baseline justify-between">
-            <div className="flex flex-row items-start justify-between gap-2" >
-              <h1 className="text-2xl font-bold text-gray-100">📟 Crypto Sensor</h1>
+          <div className="flex flex-col sm:flex-row items-baseline justify-between">
+            <div className="flex flex-col items-center justify-between" >
+              <h1 className="text-2xl font-bold text-gray-100 flex justify-start">📟 Crypto Sensor
+              <Badge variant="destructive" className="text-xs h- self-center ml-2">Alpha 0.1</Badge></h1>
                {' '}
-              <div className="text-sm text-gray-400 self-end py-[3px]">Made for you with ❤️ by Ilyomix © {new Date().getFullYear()}</div>
+              <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by Ilyomix © {new Date().getFullYear()}</div>
             </div>
-            <p className="text-sm text-gray-400">Last updated: {new Date().toLocaleString()}</p>
+            <p className="text-sm text-gray-400 mt-4 sm:mt-0">Last updated: {new Date().toLocaleString()}</p>
           </div>
 
           {hasPartialData && (

@@ -39,11 +39,11 @@ export function MetricsTable({ metrics }: MetricsTableProps) {
                 <span className="text-gray-100 whitespace-pre-line">{metric.name}</span>
                 {metric.info && (
                   <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
+                    <Tooltip delayDuration={100}>
+                      <TooltipTrigger >
                         <Info className="w-4 h-4 text-gray-400" />
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent className="max-w-60">
                         <p>{metric.info}</p>
                       </TooltipContent>
                     </Tooltip>
@@ -63,9 +63,9 @@ export function MetricsTable({ metrics }: MetricsTableProps) {
                   <div
                     className={cn(
                       "w-2 h-2 rounded-full",
-                      metric.status === "success" && "bg-green-500",
-                      metric.status === "warning" && "bg-yellow-500",
-                      metric.status === "danger" && "bg-red-500"
+                      metric.status === "success" && "bg-green-500 shadow-green-600 shadow-md",
+                      metric.status === "warning" && "bg-yellow-500 shadow-yellow-600 shadow-md",
+                      metric.status === "danger" && "bg-red-500 shadow-red-600 shadow-md animate-pulse"
                     )}
                   />
                 )}
