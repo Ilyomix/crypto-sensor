@@ -1,7 +1,7 @@
 import { CoinGeckoProResponse } from "@/src/app/types/metrics"
 
 const COINGECKO_PRO_API = "https://pro-api.coingecko.com/api/v3"
-const COINGECKO_API_KEY = "CG-VJWALA4BxJPyofKW2fJPmuy8"
+const COINGECKO_API_KEY = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
 
 export async function calculateMonthlyRSI(): Promise<number | null> {
   try {

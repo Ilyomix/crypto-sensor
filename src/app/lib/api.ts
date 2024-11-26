@@ -9,7 +9,7 @@ const APIS = {
   FETCH_TIMEOUT: 30000
 }
 
-const COINGECKO_API_KEY = process.env.NEXT_PUBLIC_COINGECKO_API_KEY || "CG-VJWALA4BxJPyofKW2fJPmuy8"
+const COINGECKO_API_KEY = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
 
 // Metric Configurations
 const METRIC_INFO = {
