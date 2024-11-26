@@ -21,7 +21,6 @@ interface MetricsTableProps {
 }
 
 export function MetricsTable({ metrics }: MetricsTableProps) {
-  console.log(metrics)
   return (
     <Table className='p-4'>
       <TableHeader>
@@ -43,7 +42,7 @@ export function MetricsTable({ metrics }: MetricsTableProps) {
                       <TooltipTrigger >
                         <Info className="w-4 h-4 text-gray-400" />
                       </TooltipTrigger>
-                      <TooltipContent className="max-w-60">
+                      <TooltipContent className="w-60">
                         <p>{metric.info}</p>
                       </TooltipContent>
                     </Tooltip>

@@ -9,6 +9,7 @@ import { fetchMetrics } from "@/src/app/lib/api"
 import { Metric } from "@/src/app/types/metrics"
 import { ErrorBoundary } from "react-error-boundary"
 import { Badge } from "@/src/app/components/ui/badge"
+import { Clock1, Clock4 } from "lucide-react"
 
 function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBoundary: () => void}) {
   return (
@@ -69,7 +70,7 @@ export function MetricsDashboard() {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <div className="w-full min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+      <div className="w-full min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-900 p-6">
         <div className="max-w-7xl mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row items-baseline justify-between">
             <div className="flex flex-col items-center justify-between" >
@@ -78,7 +79,7 @@ export function MetricsDashboard() {
                {' '}
               <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by Ilyomix © {new Date().getFullYear()}</div>
             </div>
-            <p className="text-sm text-gray-400 mt-4 sm:mt-0">Last updated: {new Date().toLocaleString()}</p>
+            <div className="text-sm text-gray-400 mt-4 sm:mt-0 flex gap-2 align-center"><Clock4 size={18}/> Last updated: {new Date().toLocaleString()}</div>
           </div>
 
           {hasPartialData && (
@@ -92,7 +93,7 @@ export function MetricsDashboard() {
           <div className="grid gap-6">
             <ExpandableSection name="Market Metrics" metrics={groupedMetrics.marketMetrics} />
             <ExpandableSection name="App Rankings" metrics={groupedMetrics.appRankings} />
-            <ExpandableSection name="Google Trends" metrics={groupedMetrics.googleTrends} />
+            <ExpandableSection name="Google Trends on 12 months" metrics={groupedMetrics.googleTrends} />
             <ExpandableSection name="Other Metrics" metrics={groupedMetrics.otherMetrics} />
           </div>
         </div>

@@ -10,7 +10,6 @@ const APIS = {
 }
 
 const COINGECKO_API_KEY = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
-console.log(process.env)
 // Metric Configurations
 const METRIC_INFO = {
   CBBI: {
