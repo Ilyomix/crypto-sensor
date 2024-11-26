@@ -1,4 +1,11 @@
 # 🚀 Crypto Sensor
+[![Netlify Status](https://api.netlify.com/api/v1/badges/83bfe17a-9fec-494b-8c90-288c58e6233f/deploy-status)](https://app.netlify.com/sites/cryptosensor/deploys)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React Version](https://img.shields.io/badge/react-18.3.1-blue.svg)](https://reactjs.org/)
+[![React Version](https://img.shields.io/badge/next-15.0-121212.svg)](https://next.org/)
+[![Coverage Status](https://coveralls.io/repos/github/username/repository/badge.svg?branch=main)](https://coveralls.io/github/username/repository?branch=main)
+
+Alpha Preview website : https://cryptosensor.netlify.app
 
 📊 A real-time cryptocurrency market indicators dashboard built with Next.js and TypeScript.
 
