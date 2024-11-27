@@ -70,6 +70,7 @@ npm run start
 
 ## 🛠️ Tech Stack
 
+- React 18
 - Next.js 15
 - TypeScript
 - Tailwind CSS
