@@ -77,7 +77,7 @@ export function MetricsDashboard() {
               <h1 className="text-2xl font-bold text-gray-100 flex justify-start">📟 Crypto Sensor
               <Badge variant="destructive" className="text-xs h- self-center ml-2">Alpha 0.1</Badge></h1>
                {' '}
-              <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by <a href="https://github.com/Ilyomix/crypto-sensor">Ilyomix</a> © {new Date().getFullYear()}</div>
+              <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by <a href="https://github.com/Ilyomix" className="underline">Ilyomix</a> © {new Date().getFullYear()}</div>
             </div>
             <div className="text-sm text-gray-400 mt-4 sm:mt-0 flex gap-2 align-center"><Clock4 size={18}/> Last updated: {new Date().toLocaleString()}</div>
           </div>
