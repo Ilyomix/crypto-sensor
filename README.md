@@ -16,7 +16,7 @@ Alpha Preview website : https://cryptosensor.netlify.app
 - 🔄 Real-time market metrics monitoring
 - 🔌 Multiple data sources integration
 - 🚦 Status indicators (success, warning, danger)
-- 📱 Responsive design with dark mode
+- 📱 Responsive design
 - 🔄 Auto-refresh functionality
 
 ## 📈 Metrics
