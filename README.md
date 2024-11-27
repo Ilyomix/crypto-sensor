@@ -35,7 +35,7 @@ Alpha Preview website : https://cryptosensor.netlify.app
 ### Installation
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/crypto-sensor.git
+git clone https://github.com/ilyomix/crypto-sensor.git
 cd crypto-sensor
 
 # Install dependencies
