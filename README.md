@@ -86,7 +86,7 @@ npm run start
 
 ## 📄 License
 
-MIT License
+- Apache-2.0 license
 
 ## 🙏 Credits
 
