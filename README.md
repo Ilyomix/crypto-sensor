@@ -70,7 +70,7 @@ npm run start
 
 ## 🛠️ Tech Stack
 
-- Next.js 13+
+- Next.js 15
 - TypeScript
 - Tailwind CSS
 - SWR
