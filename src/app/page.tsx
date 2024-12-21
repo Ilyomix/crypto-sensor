@@ -1,5 +1,11 @@
-import { DashboardWrapper } from "@/src/app/components/dashboard/dashboard-wrapper";
+import { Suspense } from 'react'
+import { MetricsDashboard } from "@/src/app/components/dashboard/metrics-dashboard"
+import { SkeletonLoader } from "@/src/app/components/dashboard/skeleton-loader"
 
 export default function Page() {
-  return <DashboardWrapper />
+  return (
+    <Suspense fallback={<SkeletonLoader />}>
+      <MetricsDashboard />
+    </Suspense>
+  )
 }

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
-import Odometer from 'odometer';
-import 'odometer/themes/odometer-theme-minimal.css';
+import React, { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import './odometer.css';
 
 interface OdometerProps {
@@ -20,99 +19,79 @@ function parseValue(value: number | string): { numericValue: number; isPercentag
   
   const percentageMatch = value.match(/^([-+]?\d*\.?\d+)%$/);
   if (percentageMatch) {
-    return { 
-      numericValue: parseFloat(percentageMatch[1]), 
-      isPercentage: true 
-    };
+    return { numericValue: parseFloat(percentageMatch[1]), isPercentage: true };
   }
   
-  const numericValue = parseFloat(value);
-  return { 
-    numericValue: isNaN(numericValue) ? 0 : numericValue, 
-    isPercentage: false 
-  };
+  const numericValue = parseFloat(value.toString().replace(/[^0-9.-]/g, ''));
+  return { numericValue: isNaN(numericValue) ? 0 : numericValue, isPercentage: false };
 }
 
-export function AnimatedValue({ 
+const AnimatedValue = ({ 
   value, 
   format = '(,ddd)', 
   duration = 100,
   animation = 'slide',
   className = ''
-}: OdometerProps) {
+}: OdometerProps) => {
   const odometerRef = useRef<HTMLDivElement>(null);
-  const odometerInstance = useRef<any>(null);
+  const [isClient, setIsClient] = useState(false);
+  const [odometerInstance, setOdometerInstance] = useState<any>(null);
   const { numericValue, isPercentage } = parseValue(value);
-  const initialRender = useRef(true);
 
   useEffect(() => {
-    const initOdometer = () => {
-      if (!odometerRef.current) return;
-
-      // Clean up previous instance if it exists
-      if (odometerInstance.current) {
-        odometerInstance.current.el.innerHTML = '';
-      }
-
-      // Set random duration seed for CSS
-      if (odometerRef.current) {
-        odometerRef.current.style.setProperty('--random-duration', (Math.random() * 1000).toString());
-      }
-
-      // Create new instance
-      odometerInstance.current = new (Odometer as any)({
-        el: odometerRef.current,
-        value: isPercentage ? Number(0).toFixed(2) : 0,
-        format: isPercentage ? '(,ddd).dd' : format,
-        duration,
-        animation,
-        theme: 'minimal'
-      });
-
-      // Set initial value immediately without animation
-      if (initialRender.current) {
-        requestAnimationFrame(() => {
-          if (odometerInstance.current) {
-            odometerInstance.current.update(isPercentage ? Number(numericValue).toFixed(2) : numericValue);
-          }
-          initialRender.current = false;
-        });
+    setIsClient(true);
+    
+    // Dynamically import Odometer only on client side
+    const loadOdometer = async () => {
+      try {
+        const Odometer = (await import('odometer')).default;
+        await import('odometer/themes/odometer-theme-minimal.css');
+        
+        if (odometerRef.current && !odometerInstance) {
+          const instance = new Odometer({
+            el: odometerRef.current,
+            value: 0,
+            format,
+            duration,
+            animation
+          });
+          setOdometerInstance(instance);
+        }
+      } catch (error) {
+        console.error('Error loading Odometer:', error);
       }
     };
 
-    // Initialize odometer
-    initOdometer();
-
-    // Update value with animation for subsequent changes
-    if (!initialRender.current && odometerInstance.current) {
-      // Set new random duration seed for CSS
-      if (odometerRef.current) {
-        odometerRef.current.style.setProperty('--random-duration', Math.random().toString());
-      }
-      
-      // Update the value
-      setTimeout(() => {
-        if (odometerInstance.current) {
-          odometerInstance.current.update(isPercentage ? Number(numericValue).toFixed(2) : numericValue);
-        }
-      }, 0);
-    }
+    loadOdometer();
 
     return () => {
-      if (odometerInstance.current) {
-        odometerInstance.current.el.innerHTML = '';
+      if (odometerInstance) {
+        // Clean up if needed
       }
     };
-  }, [numericValue, format, duration, animation, isPercentage]);
+  }, []); // Empty dependency array as we only want to load Odometer once
+
+  useEffect(() => {
+    if (odometerInstance && isClient) {
+      odometerInstance.update(numericValue);
+    }
+  }, [numericValue, odometerInstance, isClient]);
+
+  // Server-side and initial client render
+  if (!isClient) {
+    return (
+      <div className={className}>
+        {numericValue}{isPercentage ? '%' : ''}
+      </div>
+    );
+  }
 
   return (
-    <div className="flex items-center">
-      <div 
-        ref={odometerRef} 
-        className={`odometer ${className}`}
-        style={{ display: 'inline-block' }}
-      />
-      {isPercentage && <span className="ml-0.5">%</span>}
+    <div className={className}>
+      <div ref={odometerRef} className="odometer" />
+      {isPercentage && '%'}
     </div>
   );
-}
+};
+
+export { AnimatedValue };

@@ -11,6 +11,7 @@ import { ErrorBoundary } from "react-error-boundary"
 import { Badge } from "@/src/app/components/ui/badge"
 import { AnimatedClock } from "@/src/app/components/ui/animated-clock"
 import { Footer } from "./footer"
+import { useClientOnly } from "@/src/app/hooks/use-client-only"
 
 function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBoundary: () => void}) {
   return (
@@ -22,9 +23,10 @@ function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBou
   )
 }
 
-function MetricsDashboard() {
-  // Fetch market metrics every second
-  const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString());
+export function MetricsDashboard() {
+  const initialTime = useClientOnly(() => new Date().toLocaleString(), "");
+  const [lastUpdated, setLastUpdated] = useState(initialTime);
+  
   const { data: marketData, error: marketError } = useSWR<Metric[]>(
     'market-metrics',
     async () => {
@@ -150,5 +152,3 @@ function MetricsDashboard() {
     </ErrorBoundary>
   );
 }
-
-export { MetricsDashboard }
