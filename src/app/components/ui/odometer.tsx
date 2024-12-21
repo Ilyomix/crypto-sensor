@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import './odometer.css';
 
 interface OdometerProps {
   value: number | string;
@@ -45,7 +43,6 @@ const AnimatedValue = ({
     const loadOdometer = async () => {
       try {
         const Odometer = (await import('odometer')).default;
-        await import('odometer/themes/odometer-theme-minimal.css');
         
         if (odometerRef.current && !odometerInstance) {
           const instance = new Odometer({
