@@ -1,6 +1,5 @@
-import { MetricsDashboard } from "@/src/app/components/dashboard/metrics-dashboard";
+import { DashboardWrapper } from "@/src/app/components/dashboard/dashboard-wrapper";
 
 export default function Page() {
-  return <MetricsDashboard />
+  return <DashboardWrapper />
 }
-

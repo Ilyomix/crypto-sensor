@@ -22,7 +22,7 @@ function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBou
   )
 }
 
-export function MetricsDashboard() {
+function MetricsDashboard() {
   // Fetch market metrics every second
   const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString());
   const { data: marketData, error: marketError } = useSWR<Metric[]>(
@@ -150,3 +150,5 @@ export function MetricsDashboard() {
     </ErrorBoundary>
   );
 }
+
+export { MetricsDashboard }
