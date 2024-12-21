@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import './odometer.css';
-import 'odometer/themes/odometer-theme-default.css';
+
 
 interface OdometerProps {
   value: number | string;

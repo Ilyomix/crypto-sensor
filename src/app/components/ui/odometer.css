@@ -1,4 +1,5 @@
 .odometer.odometer-auto-theme {
+  font-family: "Inter";
   --odometer-duration: calc(1000ms + (var(--random-duration, random(700)) * 1ms));
   transition: transform var(--odometer-duration) ease-out;
 }
