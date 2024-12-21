@@ -10,6 +10,7 @@ import { Metric } from "@/src/app/types/metrics"
 import { ErrorBoundary } from "react-error-boundary"
 import { Badge } from "@/src/app/components/ui/badge"
 import { AnimatedClock } from "@/src/app/components/ui/animated-clock"
+import { Footer } from "./footer"
 
 function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBoundary: () => void}) {
   return (
@@ -106,7 +107,7 @@ export function MetricsDashboard() {
               <h1 className="text-2xl font-bold text-gray-100 flex justify-start">📟 Crypto Sensor
               <Badge variant="destructive" className="text-xs slashed-zero self-center ml-2">Alpha 0.2</Badge></h1>
                {' '}
-              <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by <a href="https://github.com/Ilyomix" className="underline">Ilyomix</a> &copy; {new Date().getFullYear()}</div>
+              <Footer />
             </div>
             <AnimatedClock timestamp={lastUpdated} className="mt-4 sm:mt-0" />
           </div>
