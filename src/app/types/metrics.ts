@@ -2,8 +2,9 @@ export interface Metric {
   name: string
   value: string
   threshold: string
-  status: 'success' | 'warning' | 'danger'
+  status: 'success' | 'warning' | 'danger' | 'unavailable'
   error?: string
+  info?: string
 }
 
 export interface CoinGeckoProResponse {
