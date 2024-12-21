@@ -1,11 +1,11 @@
-import { Metric, CoinGeckoProResponse, AppRankingResponse, GoogleTrendResponse } from "@/src/app/types/metrics"
+import { Metric, CoinGeckoProResponse, AppRankingResponse } from "@/src/app/types/metrics"
 import { calculateMonthlyRSI } from "./rsi"
 
 // API Constants
 const APIS = {
   CBBI: "https://colintalkscrypto.com/cbbi/data/latest.json",
   COINGECKO_PRO: "https://pro-api.coingecko.com/api/v3",
-  FEAR_GREED: "https://api.alternative.me/fng/?limit=7",
+  FEAR_GREED: "https://api.alternative.me/fng/?limit=1",
   FETCH_TIMEOUT: 30000
 }
 
@@ -81,6 +81,11 @@ const METRIC_INFO = {
     info: "Monthly Relative Strength Index for Bitcoin - Shows overbought/oversold conditions",
     threshold: ">= 70%",
     thresholds: { danger: 70, warning: 50 }
+  },
+  "Days since halving": {
+    info: "Number of days since the last Bitcoin halving event",
+    threshold: "< 100 days",
+    thresholds: { danger: 100, warning: 50 }
   }
 }
 
@@ -158,7 +163,7 @@ export async function fetchMetrics(): Promise<Metric[]> {
 
     if (fearGreedData) {
       const fearGreedAverage = fearGreedData.data.reduce((acc, item) => acc + parseInt(item.value), 0) / fearGreedData.data.length
-      metrics.push(createMetric("Fear & Greed (7-day average)", fearGreedAverage, false))
+      metrics.push(createMetric("Fear & Greed", fearGreedAverage.toFixed(0), false))
     }
 
     if (monthlyRSI !== null) {
@@ -166,7 +171,7 @@ export async function fetchMetrics(): Promise<Metric[]> {
     }
 
     // Add external metrics
-    metrics.push(...externalData.appRankings, ...externalData.googleTrends)
+    metrics.push(...externalData.appRankings)
 
     // Add halving metric
     const lastHalvingDate = new Date('2024-04-18')
@@ -204,32 +209,21 @@ async function fetchWithTimeout(url: string, options: RequestInit = {}): Promise
   }
 }
 
-async function fetchExternalData(): Promise<{ appRankings: Metric[], googleTrends: Metric[] }> {
-  const response = await fetch('/api/external-data')
-  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
-  
-  const data = await response.json()
-  if (!data?.appRankings || !data?.googleTrends) {
-    throw new Error('Invalid data structure received from external API')
+async function fetchExternalData(): Promise<{ appRankings: Metric[] }> {
+  const response = await fetch('/api/external-data');
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
   }
-
+  const data = await response.json();
   return {
-    appRankings: data.appRankings.map((ranking: AppRankingResponse) => ({
+    appRankings: (data.appRankings || []).map((ranking: AppRankingResponse) => ({
       name: ranking.name,
-      value: ranking.rank,
-      info: `App store ranking of ${ranking.name.split(' ')[0]} - Indicates retail interest and adoption`,
-      status: getAppRankingStatus(ranking.rank, ranking.threshold),
-      threshold: ranking.threshold
-    })),
-    googleTrends: data.googleTrends.map((trend: GoogleTrendResponse) => ({
-      name: trend.name,
-      value: `${trend.value}`,
-      info: `Search interest for ${trend.name.replace('Google trend "', '').replace('"', '')} - Shows public awareness and interest`,
-      // @ts-expect-error - TS doesn't like the ternary operator here
-      status: determineStatus("Google Trend", trend.value),
-      threshold: `>= ${trend.threshold}`
+      value: ranking.rank.toString(),
+      threshold: ranking.threshold,
+      status: getAppRankingStatus(ranking.rank.toString(), ranking.threshold),
+      info: `App store ranking in the Finance category - Indicates retail interest and adoption`
     }))
-  }
+  };
 }
 
 function getAppRankingStatus(value: string, threshold: string): "success" | "warning" | "danger" {

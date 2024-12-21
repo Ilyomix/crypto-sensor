@@ -1,9 +1,9 @@
 export interface Metric {
   name: string
   value: string
-  status: "success" | "warning" | "danger" | "unavailable"
   threshold: string
-  info?: string
+  status: 'success' | 'warning' | 'danger'
+  error?: string
 }
 
 export interface CoinGeckoProResponse {
@@ -48,9 +48,7 @@ export interface AppRankingResponse {
   threshold: string
 }
 
-export interface GoogleTrendResponse {
-  name: string
-  value: string
-  threshold: number
+export interface MetricsResponse {
+  metrics: Metric[]
+  timestamp: number
 }
-

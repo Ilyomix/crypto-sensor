@@ -15,6 +15,7 @@ import {
 } from "@/src/app/components/ui/table"
 import { cn } from "@/src/app/lib/utils"
 import { Metric } from "@/src/app/types/metrics"
+import { AnimatedValue } from "@/src/app/components/ui/odometer"
 
 interface MetricsTableProps {
   metrics: Metric[]
@@ -56,7 +57,17 @@ export function MetricsTable({ metrics }: MetricsTableProps) {
                   "text-gray-100",
                   metric.status === "unavailable" && "text-gray-400 italic"
                 )}>
-                  {metric.value}
+                  {metric.value && !isNaN(Number(metric.value.replace('%', ''))) ? (
+                    <AnimatedValue 
+                      value={metric.value} 
+                      duration={500}
+                      className={cn(
+                        metric.status === "unavailable" && "text-gray-400 italic"
+                      )}
+                    />
+                  ) : (
+                    metric.value || 'N/A'
+                  )}
                 </span>
                 {metric.status !== "unavailable" && (
                   <div
@@ -79,4 +90,3 @@ export function MetricsTable({ metrics }: MetricsTableProps) {
     </Table>
   )
 }
-

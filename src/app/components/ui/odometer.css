@@ -1,0 +1,28 @@
+.odometer.odometer-auto-theme {
+  --odometer-duration: calc(1000ms + (var(--random-duration, random(700)) * 1ms));
+  transition: transform var(--odometer-duration) ease-out;
+}
+
+.odometer.odometer-auto-theme .odometer-digit {
+  transition: transform var(--odometer-duration) ease-out;
+}
+
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-spacer {
+  transition: transform var(--odometer-duration) ease-out;
+}
+
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-inner {
+  transition: transform var(--odometer-duration) ease-out;
+}
+
+.odometer.odometer-auto-theme .odometer-ribbon {
+  transition: transform var(--odometer-duration) ease-out;
+}
+
+.odometer.odometer-auto-theme .odometer-ribbon-inner {
+  transition: transform var(--odometer-duration) ease-out;
+}
+
+.odometer.odometer-auto-theme .odometer-value {
+  transition: transform var(--odometer-duration) ease-out;
+}

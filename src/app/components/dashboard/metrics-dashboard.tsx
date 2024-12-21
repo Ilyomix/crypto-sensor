@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import useSWR from 'swr'
 import { Summary } from "./summary"
 import { ExpandableSection } from "./expandable-section"
@@ -9,7 +9,7 @@ import { fetchMetrics } from "@/src/app/lib/api"
 import { Metric } from "@/src/app/types/metrics"
 import { ErrorBoundary } from "react-error-boundary"
 import { Badge } from "@/src/app/components/ui/badge"
-import { Clock1, Clock4 } from "lucide-react"
+import { AnimatedClock } from "@/src/app/components/ui/animated-clock"
 
 function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBoundary: () => void}) {
   return (
@@ -22,36 +22,66 @@ function ErrorFallback({error, resetErrorBoundary}: {error: Error, resetErrorBou
 }
 
 export function MetricsDashboard() {
-  const { data: metrics, error, isLoading } = useSWR<Metric[]>('metrics', fetchMetrics, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    refreshInterval: 300000,
-    onError: (err) => console.error("SWR error:", err)
-  })
+  // Fetch market metrics every second
+  const [lastUpdated, setLastUpdated] = useState(new Date().toLocaleString());
+  const { data: marketData, error: marketError } = useSWR<Metric[]>(
+    'market-metrics',
+    async () => {
+      const allMetrics = await fetchMetrics();
+      return allMetrics.filter(m => !m.name.includes('App Rank'));
+    },
+    {
+      refreshInterval: 10000,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+      dedupingInterval: 500,
+      onSuccess: () => setLastUpdated(new Date().toLocaleString())
+    }
+  );
+
+  // Fetch external metrics every 30 seconds
+  const { data: externalData, error: externalError } = useSWR<Metric[]>(
+    'external-metrics',
+    async () => {
+      const allMetrics = await fetchMetrics();
+      return allMetrics.filter(m => m.name.includes('App Rank'));
+    },
+    {
+      refreshInterval: 30000,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+      dedupingInterval: 15000,
+      onSuccess: () => setLastUpdated(new Date().toLocaleString())
+    }
+  );
 
   const { criticalCount, totalCount, groupedMetrics } = useMemo(() => {
-    if (!metrics) return { criticalCount: 0, totalCount: 0, groupedMetrics: {} }
-    const availableMetrics = metrics.filter(m => m.status !== "unavailable")
-    const critical = availableMetrics.filter(m => m.status === "danger").length
+    const metrics = [...(marketData || []), ...(externalData || [])];
+    const availableMetrics = metrics.filter(m => m.status !== "unavailable");
+    const critical = availableMetrics.filter(m => m.status === "danger").length;
     
     const grouped = {
-      marketMetrics: metrics.filter(m => !['BTC Dominance', 'Fear & Greed (7-day average)', 'BTC RSI monthly'].includes(m.name) && !m.name.includes('App Rank') && !m.name.includes('Google trend') && m.name !== 'Days since halving'),
-      appRankings: metrics.filter(m => m.name.includes('App Rank')),
-      googleTrends: metrics.filter(m => m.name.includes('Google trend')),
-      otherMetrics: metrics.filter(m => ['BTC Dominance', 'Fear & Greed (7-day average)', 'BTC RSI monthly',
-'Days since halving'].includes(m.name))
-    }
+      marketMetrics: (marketData || []).filter(m => !m.name.includes('Days since halving')),
+      appRankings: externalData || [],
+      otherMetrics: (marketData || []).filter(m => 
+        ['BTC Dominance', 'Fear & Greed (7-day average)', 'BTC RSI monthly', 'Days since halving'].includes(m.name)
+      )
+    };
     
     return { 
       criticalCount: critical, 
       totalCount: availableMetrics.length,
       groupedMetrics: grouped
-    }
-  }, [metrics])
+    };
+  }, [marketData, externalData, lastUpdated]);
 
-  if (isLoading) return <SkeletonLoader />
+  const isLoading = !marketData && !externalData;
+  const error = marketError || externalError;
+
+  if (isLoading) return <SkeletonLoader />;
+  
   if (error) {
-    console.error("Error in MetricsDashboard:", error)
+    console.error("Error in MetricsDashboard:", error);
     return (
       <div className="w-full min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
         <div className="max-w-7xl mx-auto">
@@ -62,11 +92,10 @@ export function MetricsDashboard() {
           </div>
         </div>
       </div>
-    )
+    );
   }
-  if (!metrics || metrics.length === 0) return null
 
-  const hasPartialData = metrics.some(m => m.status === "unavailable")
+  const hasPartialData = [...(marketData || []), ...(externalData || [])].some(m => m.status === "unavailable");
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -75,11 +104,11 @@ export function MetricsDashboard() {
           <div className="flex flex-col sm:flex-row items-baseline justify-between">
             <div className="flex flex-col items-center justify-between" >
               <h1 className="text-2xl font-bold text-gray-100 flex justify-start">📟 Crypto Sensor
-              <Badge variant="destructive" className="text-xs h- self-center ml-2">Alpha 0.1</Badge></h1>
+              <Badge variant="destructive" className="text-xs slashed-zero self-center ml-2">Alpha 0.2</Badge></h1>
                {' '}
-              <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by <a href="https://github.com/Ilyomix" className="underline">Ilyomix</a> © {new Date().getFullYear()}</div>
+              <div className="text-sm text-gray-400 self-start py-[3px]">Made for you with ❤️ by <a href="https://github.com/Ilyomix" className="underline">Ilyomix</a> &copy; {new Date().getFullYear()}</div>
             </div>
-            <div className="text-sm text-gray-400 mt-4 sm:mt-0 flex gap-2 align-center"><Clock4 size={18}/> Last updated: {new Date().toLocaleString()}</div>
+            <AnimatedClock timestamp={lastUpdated} className="mt-4 sm:mt-0" />
           </div>
 
           {hasPartialData && (
@@ -88,23 +117,35 @@ export function MetricsDashboard() {
             </div>
           )}
 
-          <Summary metrics={metrics.filter(m => m.status !== "unavailable")} criticalCount={criticalCount} totalCount={totalCount} />
+          <Summary metrics={[...(marketData || []), ...(externalData || [])].filter(m => m.status !== "unavailable")} criticalCount={criticalCount} totalCount={totalCount} />
           
-          <div className="grid gap-6">
-             {/* @ts-expect-error - TS doesn't like the spread operator on JSX elements */}
-            <ExpandableSection name="Market Metrics" metrics={groupedMetrics.marketMetrics} />
-                         {/* @ts-expect-error - TS doesn't like the spread operator on JSX elements */}
-            <ExpandableSection name="App Rankings" metrics={groupedMetrics.appRankings} />
-                         {/* @ts-expect-error - TS doesn't like the spread operator on JSX elements */}
-            <ExpandableSection name="Google Trends on 12 months" metrics={groupedMetrics.googleTrends} />
-                         {/* @ts-expect-error - TS doesn't like the spread operator on JSX elements */}
-            <ExpandableSection name="Other Metrics" metrics={groupedMetrics.otherMetrics} />
+          <div className="grid grid-cols-1 gap-4">
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <ExpandableSection
+                title="Market Metrics"
+                metrics={groupedMetrics.marketMetrics}
+                defaultExpanded={true}
+              />
+            </ErrorBoundary>
+
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <ExpandableSection
+                title="App Store Rankings"
+                metrics={groupedMetrics.appRankings}
+                defaultExpanded={true}
+              />
+            </ErrorBoundary>
+
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <ExpandableSection
+                title="Other Metrics"
+                metrics={groupedMetrics.otherMetrics}
+                defaultExpanded={true}
+              />
+            </ErrorBoundary>
           </div>
         </div>
       </div>
     </ErrorBoundary>
-  )
+  );
 }
-
-export default MetricsDashboard
-
