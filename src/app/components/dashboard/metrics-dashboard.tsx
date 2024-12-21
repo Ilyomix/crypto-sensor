@@ -74,7 +74,7 @@ export function MetricsDashboard() {
       totalCount: availableMetrics.length,
       groupedMetrics: grouped
     };
-  }, [marketData, externalData, lastUpdated]);
+  }, [marketData, externalData]);
 
   const isLoading = !marketData && !externalData;
   const error = marketError || externalError;
@@ -88,7 +88,7 @@ export function MetricsDashboard() {
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-500/10 border border-red-500/50 rounded-md p-4 text-red-100">
             <h2 className="text-xl font-semibold mb-2">Error Loading Data</h2>
-            <p>We're experiencing issues fetching the latest data. Please try again later.</p>
+            <p>We&apos;re experiencing issues fetching the latest data. Please try again later.</p>
             <pre className="mt-2 text-sm">{error.message}</pre>
           </div>
         </div>
@@ -114,7 +114,7 @@ export function MetricsDashboard() {
 
           {hasPartialData && (
             <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-md p-4 text-yellow-100">
-              <p>Some data is currently unavailable. We're displaying partial information.</p>
+              <p>Some data is currently unavailable. We&apos;re displaying partial information.</p>
             </div>
           )}
 
