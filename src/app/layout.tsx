@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     title: 'Crypto Sensor',
     description: 'Real-time crypto market sentiment analysis',
     siteName: 'Crypto Sensor',
+    images: [
+      {
+        url: 'https://framerusercontent.com/images/o0BkZLtkhPIFgEd1bis9jJ0vA.jpeg?scale-down-to=2048',
+        width: 2048,
+        height: 1170,
+        alt: 'Crypto Sensor Dashboard',
+      }
+    ],
   },
   
   twitter: {
@@ -39,6 +47,7 @@ export const metadata: Metadata = {
     title: 'Crypto Sensor',
     description: 'Real-time crypto market sentiment analysis',
     creator: '@Ilyomix',
+    images: ['https://framerusercontent.com/images/o0BkZLtkhPIFgEd1bis9jJ0vA.jpeg?scale-down-to=2048'],
   },
   
   icons: {
