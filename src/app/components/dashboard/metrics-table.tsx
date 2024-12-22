@@ -52,7 +52,7 @@ export function MetricsTable({ metrics }: MetricsTableProps) {
               </div>
             </TableCell>
             <TableCell className="text-right">
-              <div className="flex items-center justify-end gap-2">
+              <div className="flex items-center justify-end gap-2 min-w-[100px]">
                 <span className={cn(
                   "text-gray-100",
                   metric.status === "unavailable" && "text-gray-400 italic"

@@ -3,7 +3,11 @@ import { Inter } from 'next/font/google'
 import "./globals.css";
 import GoogleAnalytics from './components/analytics/GoogleAnalytics'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: 'Crypto Sensor',

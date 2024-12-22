@@ -1,7 +1,12 @@
+.odometer {
+  font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "cv09" 1, "ss01" 1, "zero" 1, "liga" 1, "calt" 1, "tnum" 1 !important;
+}
+
 .odometer.odometer-auto-theme {
-  font-family: "Inter";
+  font-family: var(--font-inter), "Inter", sans-serif;
   --odometer-duration: calc(1000ms + (var(--random-duration, random(700)) * 1ms));
   transition: transform var(--odometer-duration) ease-out;
+  font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "cv09" 1, "ss01" 1, "zero" 1, "liga" 1, "calt" 1, "tnum" 1;
 }
 
 .odometer.odometer-auto-theme .odometer-digit {
@@ -44,6 +49,7 @@
   *zoom: 1;
   *display: inline;
   position: relative;
+  font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "cv09" 1, "ss01" 1, "zero" 1, "liga" 1, "calt" 1, "tnum" 1;
 }
 
 .odometer.odometer-auto-theme .odometer-digit .odometer-digit-spacer, .odometer.odometer-theme-default .odometer-digit .odometer-digit-spacer {
@@ -64,6 +70,7 @@
   right: 0;
   bottom: 0;
   overflow: hidden;
+  font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "cv09" 1, "ss01" 1, "zero" 1, "liga" 1, "calt" 1, "tnum" 1;
 }
 
 .odometer.odometer-auto-theme .odometer-digit .odometer-ribbon, .odometer.odometer-theme-default .odometer-digit .odometer-ribbon {
@@ -78,6 +85,7 @@
 .odometer.odometer-auto-theme .odometer-digit .odometer-value, .odometer.odometer-theme-default .odometer-digit .odometer-value {
   display: block;
   -webkit-transform: translateZ(0);
+  font-feature-settings: "cv01" 1, "cv02" 1, "cv03" 1, "cv04" 1, "cv09" 1, "ss01" 1, "zero" 1, "liga" 1, "calt" 1, "tnum" 1;
 }
 
 .odometer.odometer-auto-theme .odometer-digit .odometer-value.odometer-last-value, .odometer.odometer-theme-default .odometer-digit .odometer-value.odometer-last-value {
