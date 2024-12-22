@@ -117,7 +117,7 @@ async function fetchAppRankings() {
       const rank = appInfo ? entries.indexOf(appInfo) + 1 : '>200';
       
       return {
-        name: `${cryptoApp.name} App Rank (Finance)`,
+        name: `${cryptoApp.name} App Rank (US)`,
         rank: rank.toString(),
         threshold: cryptoApp.threshold
       };
