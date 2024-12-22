@@ -62,12 +62,12 @@ export function MetricsDashboard() {
     const metrics = [...(marketData || []), ...(externalData || [])];
     const availableMetrics = metrics.filter(m => m.status !== "unavailable");
     const critical = availableMetrics.filter(m => m.status === "danger").length;
-    
+
     const grouped = {
-      marketMetrics: (marketData || []).filter(m => !m.name.includes('Days since halving')),
+      marketMetrics: (marketData || []).filter(m => !['BTC Dominance', 'Fear & Greed', 'BTC RSI monthly', 'Days since halving'].includes(m.name)),
       appRankings: externalData || [],
       otherMetrics: (marketData || []).filter(m => 
-        ['BTC Dominance', 'Fear & Greed (7-day average)', 'BTC RSI monthly', 'Days since halving'].includes(m.name)
+        ['BTC Dominance', 'Fear & Greed', 'BTC RSI monthly', 'Days since halving'].includes(m.name)
       )
     };
     

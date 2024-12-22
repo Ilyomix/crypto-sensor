@@ -73,9 +73,14 @@ const METRIC_INFO = {
     thresholds: { danger: 45, warning: 50 }
   },
   "Fear & Greed": {
-    info: "Market sentiment indicator combining multiple data sources over 7 days",
+    info: "Market sentiment indicator combining multiple data sources",
     threshold: ">= 90",
     thresholds: { danger: 90, warning: 75 }
+  },
+  "BTC RSI monthly": {
+    info: "Monthly Relative Strength Index for Bitcoin - Shows overbought/oversold conditions",
+    threshold: ">= 70%",
+    thresholds: { danger: 70, warning: 50 }
   },
   "Days since halving": {
     info: "Number of days since the last Bitcoin halving event",
