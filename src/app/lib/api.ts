@@ -64,8 +64,8 @@ const METRIC_INFO = {
   },
   Confidence: {
     info: "Market confidence metric based on various indicators",
-    threshold: "< 10%",
-    thresholds: { danger: 10, warning: 30 }
+    threshold: "> 70%",
+    thresholds: { danger: 70, warning: 30 }
   },
   "BTC Dominance": {
     info: "Bitcoin's market capitalization as a percentage of total cryptocurrency market cap",
