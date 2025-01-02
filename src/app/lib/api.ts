@@ -64,8 +64,8 @@ const METRIC_INFO = {
   },
   Confidence: {
     info: "Market confidence metric based on various indicators",
-    threshold: "< 10%",
-    thresholds: { danger: 10, warning: 30 }
+    threshold: "> 70%",
+    thresholds: { danger: 70, warning: 30 }
   },
   "BTC Dominance": {
     info: "Bitcoin's market capitalization as a percentage of total cryptocurrency market cap",
@@ -105,7 +105,12 @@ const determineStatus = (name: string, value: number): "success" | "warning" | "
   if (!config) return "unavailable"
   
   const { thresholds } = config
-  if (name === "Confidence" || name === "BTC Dominance") {
+  if (name === "Confidence") {
+    return value >= thresholds.danger ? "danger" : 
+           value >= thresholds.warning ? "warning" : "success"
+  }
+
+  if (name === "BTC Dominance") {
     return value <= thresholds.danger ? "danger" : 
            value <= thresholds.warning ? "warning" : "success"
   }
