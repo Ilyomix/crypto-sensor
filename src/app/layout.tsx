@@ -86,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="monetag" content="e5c7296a82b86195be471bbfc399ec29" />
         <GoogleAnalytics />
       </head>
       <body className={inter.className}>{children}</body>
