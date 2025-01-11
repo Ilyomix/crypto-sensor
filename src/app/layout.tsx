@@ -90,6 +90,7 @@ export default function RootLayout({
         <meta name="monetag" content="e5c7296a82b86195be471bbfc399ec29" />
         <GoogleAnalytics />
       </head>
+      <script src="https://alwingulla.com/88/tag.min.js" data-zone="124842" async data-cfasync="false"></script>
       <body className={inter.className}>{children}</body>
      </html>
   )
